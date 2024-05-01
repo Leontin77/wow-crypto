@@ -24,7 +24,7 @@ const checkTg = async (req, res, next) => {
     try {
         // const {id} = req.params
 
-        console.log("req.body", req);
+        console.log("req.body", req.body.initData);
 
         // if (id) {
         //     const findUser = await User.findOne({id});
