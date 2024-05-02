@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema(
         id: {
             type: Number,
             required: true,
-            unique: true,
+            unique: false,
         },
         username: {
             type: String,
@@ -31,16 +31,20 @@ const userSchema = new mongoose.Schema(
             type: Number,
             required: false,
             unique: false,
+            default: 0
         },
         stats: {
             type: Object,
             required: false,
             unique: false,
+            default: {}
         },
-        // referrals: {
-        //     type: Schema.Types.ObjectId,
-        //     ref: tableNamesEnum.DOCTORS
-        // },
+        referrals: {
+            type: Array,
+            required: false,
+            unique: false,
+            default: []
+        },
         profilePic: {
             type: String,
             required: false,
