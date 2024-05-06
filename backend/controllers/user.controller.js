@@ -5,6 +5,9 @@ const user = async (req, res) => {
         const {user} = req;
         generateTokenAndSetCookie(user._id, res);
 
+
+        console.log("!!!!!")
+
         res.status(200).json(user);
     } catch (error) {
         console.log("Error in user controller", error.message);

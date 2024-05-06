@@ -27,16 +27,24 @@ const userSchema = new mongoose.Schema(
             required: false,
             unique: false,
         },
+        lastOnline: {
+            type: Date,
+            required: false,
+            unique: false,
+        },
         score: {
             type: Number,
             required: false,
             unique: false,
-            default: 0
+            default: 1
         },
-        stats: {
-            type: Object,
+      stats: {
+            type: {
+                strength: { type: Number, default: 0 },
+                speed: { type: Number, default: 0 },
+                energy: { type: Number, default: 0 }
+            },
             required: false,
-            unique: false,
             default: {}
         },
         referrals: {
