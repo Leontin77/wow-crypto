@@ -27,22 +27,28 @@ const userSchema = new mongoose.Schema(
             required: false,
             unique: false,
         },
-        lastOnline: {
+        lastClime: {
             type: Date,
             required: false,
             unique: false,
         },
         score: {
             type: Number,
-            required: false,
+            required: true,
             unique: false,
             default: 1
         },
-      stats: {
+        energyTemp: {
+            type: Number,
+            required: true,
+            unique: false,
+            default: 1000
+        },
+        stats: {
             type: {
-                strength: { type: Number, default: 0 },
-                speed: { type: Number, default: 0 },
-                energy: { type: Number, default: 0 }
+                strength: {type: Number, default: 1},
+                speed: {type: Number, default: 0.5},
+                energy: {type: Number, default: 1000}
             },
             required: false,
             default: {}
