@@ -28,7 +28,11 @@ io.on("connection", async (socket) => {
 
         if (!user?.energyTemp) return
 
-        user.energyTemp = {value: user?.energyTemp?.value +  +energyToAdd.toFixed(1), time: Date.now()};
+        if ((+energyToAdd + user?.energyTemp?.value) > user?.stats?.energy) {
+            user.energyTemp = {value: user?.stats?.energy, time: Date.now()};
+        } else {
+            user.energyTemp = {value: user?.energyTemp?.value + +energyToAdd.toFixed(1), time: Date.now()};
+        }
 
         await user.save();
     };
@@ -46,7 +50,6 @@ io.on("connection", async (socket) => {
     // });
 
 
-
     io.emit("getUser", user);
 
 
@@ -54,7 +57,7 @@ io.on("connection", async (socket) => {
         try {
             // console.log("!!!!!! updateUser", data)
             user.score += data.score;
-            user.energyTemp = { value: data.energy, time: Date.now()};
+            user.energyTemp = {value: data.energy, time: Date.now()};
             user.save();
         } catch (error) {
             console.error("Error fetching user:", error);
