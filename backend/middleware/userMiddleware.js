@@ -5,13 +5,17 @@ const checkUser = async (req, res, next) => {
     try {
         const {id} = req.params;
 
+        console.log("id", id)
+
         if (id) {
-            const findUser = await User.findOne({id: +id});
+            const findUser = await User.findOne({id});
             if (!findUser) {
                 return res.status(400).json({error: "Error with user"});
             }
             req.user = findUser;
         }
+
+        console.log("req.user", req.user)
 
         next();
     } catch (error) {

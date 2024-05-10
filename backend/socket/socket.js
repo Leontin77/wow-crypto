@@ -21,12 +21,14 @@ io.on("connection", async (socket) => {
 
     const updateUserEnergy = async () => {
         const now = Date.now();
-        const lastUpdate = new Date(user.energyTemp.time).getTime();
+        const lastUpdate = new Date(user?.energyTemp?.time).getTime();
         const timeDifference = Math.min((now - lastUpdate) / 1000, 7200);
 
-        const energyToAdd = user.stats.speed * timeDifference;
+        const energyToAdd = user?.stats?.speed * timeDifference;
 
-        user.energyTemp = {value: user.energyTemp.value + +energyToAdd.toFixed(1), time: now};
+        if (!user?.energyTemp) return
+
+        user.energyTemp = {value: user?.energyTemp?.value +  +energyToAdd.toFixed(1), time: Date.now()};
 
         await user.save();
     };
