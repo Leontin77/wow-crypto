@@ -36,7 +36,7 @@ const checkTg = async (req, res, next) => {
 
         next();
     } catch (error) {
-        console.log("Error in checkUser: ", error.message);
+        console.log("Error in checkTg: ", error.message);
         res.status(500).json({error: "Internal server error"});
     }
 };

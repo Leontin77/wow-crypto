@@ -39,10 +39,13 @@ const userSchema = new mongoose.Schema(
             default: 1
         },
         energyTemp: {
-            type: Number,
-            required: true,
+            type: {
+                value: {type: Number, default: 1000},
+                time: {type: Date, default:  Date.now()},
+            },
+            required: false,
             unique: false,
-            default: 1000
+            default: {value: 1000, time: Date.now()}
         },
         stats: {
             type: {
