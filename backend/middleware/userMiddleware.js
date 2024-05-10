@@ -6,7 +6,7 @@ const checkUser = async (req, res, next) => {
         const {id} = req.params;
 
         if (id) {
-            const findUser = await User.findOne({id});
+            const findUser = await User.findOne({id: +id});
             if (!findUser) {
                 return res.status(400).json({error: "Error with user"});
             }
