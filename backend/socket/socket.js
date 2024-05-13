@@ -12,6 +12,7 @@ const io = new Server(server, {
             "http://localhost:5173",
             "https://wow-crypto.onrender.com",
             "https://leontin77.github.io/wow",
+            "https://leontin77.github.io",
         ],
         methods: ["GET", "POST"],
     },
