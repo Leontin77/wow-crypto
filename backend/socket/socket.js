@@ -62,7 +62,7 @@ io.on("connection", async (socket) => {
     socket.on("updateUser", async (data) => {
         try {
             // console.log("!!!!!! updateUser", data)
-            user.score += data.score;
+            user.score = data.score;
             user.energyTemp = {value: data.energy, time: Date.now()};
             user.save();
         } catch (error) {
@@ -71,12 +71,11 @@ io.on("connection", async (socket) => {
     });
 
 
-    socket.on("claim", async () => {
+    socket.on("claim", async (data) => {
         try {
 
-            user.lastClime = Date.now();
+            user.lastClime = data;
             user.save();
-            io.to(userId).emit("getUser", user);
 
         } catch (error) {
             console.error("Error fetching user:", error);
