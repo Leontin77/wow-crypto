@@ -56,8 +56,14 @@ const userSchema = new mongoose.Schema(
             required: false,
             default: {}
         },
-        referrals: {
-            type: Array,
+        referrals: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
+        referralRewards: {
+            type: [],
             required: false,
             unique: false,
             default: []

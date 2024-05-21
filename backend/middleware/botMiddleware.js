@@ -27,25 +27,47 @@ const checkUser = async (ctx, next) => {
         console.log("Error in checkUser middleware: ", error.message);
     }
 };
-
 const checkRefCode = async (ctx, idRef) => {
     try {
-        await tgIdValidator.validate({id: idRef})
-
-        if (idRef === ctx?.update?.message?.from?.id) {
-            return
+        // Validate the idRef to ensure it's a valid Telegram ID
+        await tgIdValidator.validate({ id: idRef });
+        // Ensure the idRef is not the same as the current user's ID
+        if (idRef.toString() === ctx.state.user.id.toString()) {
+            console.log('User cannot refer themselves.')
+            return;
         }
+         // Check if the idRef is already a referral of any user
+        const existingReferral = await User.findOne({ referrals: ctx.state.user._id });
+        if (existingReferral) {
+            console.log("User is already someone's referral.");
+            return;
+        }
+        // Find the user being referred
+        const userRef = await User.findOne({ id: idRef });
+        console.log("50🚀 ~ checkRefCode ~ userRef:", userRef)
 
-        const userRef = await User.findOne({id: idRef});
-
-        if (userRef && ctx.state.user ) {
-            userRef.referrals = Array.from(new Set([...userRef.referrals, ctx.state.user._id]))
-            await userRef.save();
+        if (userRef && ctx.state.user) {
+            console.log("53🚀 ~ checkRefCode ~ userRef:", userRef)
+            // Check if the current user is already in the referrals array
+            const currentUserId = ctx.state.user._id;
+            console.log("56🚀 ~ checkRefCode ~ currentUserId:", currentUserId)
+            if (!userRef.referrals.includes(currentUserId)) {
+                // Add the current user's ID to the referrals array
+                userRef.referrals.push(currentUserId);
+                await userRef.save();
+                console.log("Referral added successfully.");
+            } else {
+                console.log("User is already a referral.");
+            }
+        } else {
+            console.log("Referral user not found or current user is not authenticated.");
         }
     } catch (error) {
         console.log("Error in checkRefCode middleware: ", error.message);
     }
 };
+
+
 
 
 export default {checkUser, checkRefCode};
