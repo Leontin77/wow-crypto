@@ -202,7 +202,7 @@ io.on("connection", async (socket) => {
 
     socket.on("getUser", async () => {
         try {
-            const user = await User.findById(userId);
+            const user = await User.findOne({ id: userId });
             io.to(userId).emit("getUser", user);
         } catch (error) {
             console.error("Error fetching user:", error);
@@ -217,10 +217,11 @@ io.on("connection", async (socket) => {
             socket.emit("referralStatsError", { message: "Error fetching referral stats" });
         }
     });
-    socket.on("claimRefRewards", async ({refarralRewardsArray, amountToClaim}) => {
+    socket.on("claimRefRewards", async ({referralRewardsArray, amountToClaim}) => {
         try {
             await acquireLock(userId);
-            user.referralRewards = refarralRewardsArray;
+            console.log("first", referralRewardsArray)
+            user.referralRewards = referralRewardsArray;
             user.score += amountToClaim;
 
             await user.save();
